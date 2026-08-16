@@ -1,0 +1,9 @@
+dungeonRoomPropertiesGroupTable:
+	.dw dungeonRoomPropertiesGroup4Data
+	.dw dungeonRoomPropertiesGroup5Data
+
+dungeonRoomPropertiesGroup4Data:
+	m_IncRoomData group4DungeonProperties.bin
+dungeonRoomPropertiesGroup5Data:
+	m_IncRoomData group5DungeonProperties.bin
+

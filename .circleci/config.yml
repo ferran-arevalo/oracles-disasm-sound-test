@@ -1,0 +1,30 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+jobs:
+  build-game:
+    docker:
+      - image: stewmat/oracles-disasm-builder:0.4
+    parameters:
+      game:
+        type: string
+    steps:
+      - checkout
+      - run: make << parameters.game >>
+      # We run "verifyChecksum.sh" even though it's in the makefile, because the makefile ignores
+      # its error code.
+      # Only do it if the makefile is in BUILD_VANILLA mode, though.
+      - run:
+          name: Verify checksum (if applicable)
+          command: grep 'BUILD_VANILLA = false' Makefile || tools/build/verify-checksum.sh << parameters.game >>
+
+
+workflows:
+  main:
+    jobs:
+      - build-game:
+          name: build-ages
+          game: ages
+      - build-game:
+          name: build-seasons
+          game: seasons
